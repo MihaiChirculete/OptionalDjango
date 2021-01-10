@@ -1,15 +1,11 @@
 from django.http import HttpResponse
 from django.template import loader
+from django.views.generic import TemplateView
 
 
-def index(request):
-    template = loader.get_template('sample-page.html')
-    context = {
-    }
-    return HttpResponse(template.render(context, request))
+class IndexView(TemplateView):
+    template_name = "sample-page.html"
 
 
-def contact(request):
-    template = loader.get_template('contact.html')
-    context = {}
-    return HttpResponse(template.render(context, request))
+class ContactView(TemplateView):
+    template_name = "contact.html"
