@@ -7,8 +7,13 @@ class Article(models.Model):
     body = models.CharField(max_length=5000)  # Content of the article
     date = models.DateTimeField('date published')  # Date when the article was published
 
+    @property
+    def article_id(self):
+        return self.id
+
 
 class Comment(models.Model):
+    article_id = models.PositiveIntegerField(default=0)  # Parent article of this comment
     author = models.EmailField(max_length=100)  # Who left this comment
     body = models.CharField(max_length=400)  # Comment body
     date = models.DateTimeField('date commented')  # Date when the comment was written
