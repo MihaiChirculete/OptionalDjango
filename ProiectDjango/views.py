@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 
 class IndexView(TemplateView):
-    template_name = "sample-page.html"
+    template_name = "index.html"
 
 
 class ContactView(TemplateView):
