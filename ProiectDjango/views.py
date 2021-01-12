@@ -44,9 +44,9 @@ class ArticleListView(ListView):
     template_name = 'ProiectDjango/article/list.html'
 
 
-def article_share(request, article_id):
+def article_share(request, post_id):
     # Retrieve article by id
-    article = get_object_or_404(Article, id=article_id, status='published')
+    post = get_object_or_404(Article, id=post_id, status='published')
     sent = False
 
     if request.method == 'POST':
@@ -56,15 +56,14 @@ def article_share(request, article_id):
             # Form fields passed validation
             clean_data = form.cleaned_data
             article_url = request.build_absolute_uri(
-                article.get_absolute_url())
-            subject = f"{clean_data['name']} recommends you read " \
-                      f"{article.title}"
-            message = f"Read {article.title} at {article_url}\n\n" \
-                      f"{clean_data['name']}\'s comments: {clean_data['comments']}"
+                post.get_absolute_url())
+            subject = f"{clean_data['name']} recommends you read " + f"{post.title}"
+            message = f"Read {post.title} at {article_url}\n\n" + f"{clean_data['name']}\'s comments: {clean_data['comments']}"
             # send_mail(subject, message, 'admin@proiectdjango.com',
             #           [clean_data['to']])
             sent = True
-        else:
-            form = EmailArticleForm()
-        return render(request, 'ProiectDjango/article/share.html', {'post': article,
-                                                                    'form': form})
+    else:
+        form = EmailArticleForm()
+    return render(request, 'ProiectDjango/article/share.html', {'post': post,
+                                                                'form': form,
+                                                                'sent': sent})
