@@ -1,15 +1,31 @@
+from django.contrib.auth.models import User
+from django.utils import timezone
 from django.db import models
 
 
 class Article(models.Model):
-    author = models.EmailField(max_length=100)  # Who created this article
-    title = models.CharField(max_length=100)  # Title of the article
-    body = models.CharField(max_length=5000)  # Content of the article
-    date = models.DateTimeField('date published')  # Date when the article was published
+    STATUS_CHOICES = (('draft', 'Draft'),
+                      ('published', 'Published'))
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250, unique_for_date='publish')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_articles')
+    body = models.TextField()
+    publish = models.DateTimeField(default=timezone.now())
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
 
     @property
     def article_id(self):
         return self.id
+
+    # Sort results by the publishing date
+    # (descending order)
+    class Meta:
+        ordering = ('-publish',)
+
+    def __str__(self):
+        return self.title
 
 
 class Comment(models.Model):
