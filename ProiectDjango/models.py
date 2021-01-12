@@ -3,6 +3,11 @@ from django.utils import timezone
 from django.db import models
 
 
+class PublishedArticleManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedArticleManager, self).get_queryset().filter(status='published')
+
+
 class Article(models.Model):
     STATUS_CHOICES = (('draft', 'Draft'),
                       ('published', 'Published'))
@@ -26,6 +31,9 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    objects = models.Manager()  # The default manager
+    published = PublishedArticleManager()   # Custom manager defined above
 
 
 class Comment(models.Model):
