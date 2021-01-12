@@ -61,10 +61,10 @@ def article_share(request, article_id):
                       f"{article.title}"
             message = f"Read {article.title} at {article_url}\n\n" \
                       f"{clean_data['name']}\'s comments: {clean_data['comments']}"
-            send_mail(subject, message, 'admin@proiectdjango.com',
-                      [clean_data['to']])
+            # send_mail(subject, message, 'admin@proiectdjango.com',
+            #           [clean_data['to']])
             sent = True
         else:
             form = EmailArticleForm()
-            return render(request, 'ProiectDjango/article/share.html', {'post': article,
-                                                            'form': form})
+        return render(request, 'ProiectDjango/article/share.html', {'post': article,
+                                                                    'form': form})
