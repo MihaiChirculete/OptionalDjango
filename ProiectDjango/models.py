@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class PublishedArticleManager(models.Manager):
@@ -48,3 +49,10 @@ class Comment(models.Model):
     author = models.EmailField(max_length=100)  # Who left this comment
     body = models.CharField(max_length=400)  # Comment body
     date = models.DateTimeField('date commented')  # Date when the comment was written
+
+
+class Review(models.Model):
+    article_id = models.PositiveIntegerField
+    rating = models.IntegerField(
+        default=1,
+        validators=[MaxValueValidator(10), MinValueValidator(1)])

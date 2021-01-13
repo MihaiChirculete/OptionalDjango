@@ -6,7 +6,7 @@ from .models import Article
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import EmailArticleForm
 from django.core.mail import send_mail
-
+from .forms import SupportEmail
 
 # def article_list(request):
 #     object_list = Article.published.all()
@@ -68,3 +68,26 @@ def article_share(request, article_id):
             form = EmailArticleForm()
         return render(request, 'ProiectDjango/article/share.html', {'post': article,
                                                                     'form': form})
+
+
+
+    # template_name = "ProiectDjango/supportEmail.html"
+
+def SupportEmail_view(request):
+    sent = False
+
+    if request.method == 'POST':
+        # Form was submitted
+        form = SupportEmail(request.POST)
+        if form.is_valid():
+            # Form fields passed validation
+            clean_data = form.cleaned_data
+            Ticket_Title = f"{clean_data['TicketTitle']} "
+            Email_User = f"{clean_data['EmailUser']} "
+            complaint = f"{clean_data['complaint']} "
+            # send_mail(subject, message,[clean_data['Email_User']], 'admin@proiectdjango.com')
+            sent = True
+    else:
+        form = SupportEmail()
+    return render(request, 'ProiectDjango/supportEmail.html', {'sent': sent,
+                                                               'form': form})

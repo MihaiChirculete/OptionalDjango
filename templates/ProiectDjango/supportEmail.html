@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends "ProiectDjango/base.html" %}
+{% block title %}Support Email{% endblock %}
+
+{% block content %}
+
+{% if sent %}
+        <h1>E-mail trimis cu succes</h1>
+        <p>
+            Your complaint was successfully sent to our review team.
+        </p>
+    {% else %}
+        <h1>Support Page</h1>
+
+        <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="submit" value="Send e-mail">
+        </form>
+{% endif %}
+
+{% endblock %}
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Support</title>
+</head>
+<body>
+<h2>test test</h2>
+</body>
+</html>

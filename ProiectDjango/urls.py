@@ -9,4 +9,5 @@ urlpatterns = [
          name='post_detail'),
     path('<int:article_id>/share/',
          views.article_share, name='post_share'),
+    path('supportEmail',views.SupportEmail_view, name = 'support')
 ]
